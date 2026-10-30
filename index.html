@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Portafolio JavaScript</title>
+    <!-- Enlace al archivo de estilos externo -->
+    <link rel="stylesheet" href="estilos.css">
+</head>
+<body>
+
+    <!-- Contenedor donde JavaScript insertará todo el contenido -->
+    <div id="contenedor-principal"></div>
+
+    <script>
+        // Seleccionamos el contenedor principal
+        const app = document.getElementById('contenedor-principal');
+
+        // 1. Creamos la marquesina con borde de doble línea que envuelve la información
+        const marquesina = document.createElement('marquee');
+        marquesina.className = 'marquesina-doble';
+        marquesina.direction = 'left';
+        marquesina.scrollAmount = 6;
+
+        // Renglón 1: Título "mi portafolio JavaScript"
+        const titulo = document.createElement('div');
+        titulo.className = 'titulo-portafolio';
+        titulo.textContent = 'mi portafolio JavaScript';
+
+        // Renglón 2: Nombre "Magali Alejandra"
+        const nombre = document.createElement('div');
+        nombre.className = 'nombre-alumno';
+        nombre.textContent = 'Magali Alejandra';
+
+        // Renglón 3: "Campus Guadalajara Sur"
+        const campus = document.createElement('div');
+        campus.className = 'campus-uvm';
+        campus.textContent = 'Campus Guadalajara Sur';
+
+        // Renglón 4: Logotipo de la UVM con la ruta exacta y extensión .jpg
+        const contenedorLogo = document.createElement('div');
+        const logo = document.createElement('img');
+        logo.className = 'logo-uvm';
+        logo.src = 'C:/Users/GdlSur/Documents/Mi portafolio/Mis Imagenes/Logo_UVM.jpg';
+        
+        // Respaldo automático con ruta relativa por si mueves la carpeta de lugar
+        logo.onerror = function() {
+            this.src = 'Mis Imagenes/Logo_UVM.jpg';
+        };
+        
+        logo.alt = 'Logotipo de la UVM';
+        contenedorLogo.appendChild(logo);
+
+        // Agregamos los 4 renglones dentro de la marquesina
+        marquesina.appendChild(titulo);
+        marquesina.appendChild(nombre);
+        marquesina.appendChild(campus);
+        marquesina.appendChild(contenedorLogo);
+
+        // 2. Creamos el contenedor de los botones en la parte de abajo
+        const contenedorBotones = document.createElement('div');
+        contenedorBotones.className = 'contenedor-botones';
+
+        // Botón 1: Verde - UVM
+        const btnUvm = document.createElement('button');
+        btnUvm.className = 'boton btn-verde';
+        btnUvm.textContent = 'UVM';
+        btnUvm.onclick = function() {
+            window.location.href = 'https://uvm.mx/';
+        };
+
+        // Botón 2: Azul - Carrusel de imágenes (conectado a carrusel.html)
+        const btnCarrusel = document.createElement('button');
+        btnCarrusel.className = 'boton btn-azul';
+        btnCarrusel.textContent = 'carrusel de imágenes';
+        btnCarrusel.onclick = function() {
+            window.location.href = 'carrusel.html';
+        };
+
+        // Agregamos los botones a su contenedor
+        contenedorBotones.appendChild(btnUvm);
+        contenedorBotones.appendChild(btnCarrusel);
+
+        // 3. Insertamos la marquesina y los botones en la página
+        app.appendChild(marquesina);
+        app.appendChild(contenedorBotones);
+    </script>
+
+</body>
+</html>

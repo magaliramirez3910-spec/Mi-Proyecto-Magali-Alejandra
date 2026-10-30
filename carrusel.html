@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>El Carrusel de Imágenes - El Medio Ambiente</title>
+    <link rel="stylesheet" href="estilos.css">
+</head>
+<body>
+
+    <div id="contenedor-carrusel"></div>
+
+    <!-- Visor emergente para mostrar la imagen en su tamaño original al hacer clic -->
+    <div id="visor-imagen" class="modal-oculto">
+        <span id="cerrar-visor">×</span>
+        <img id="imagen-tamano-original" src="" alt="Imagen en tamaño original">
+    </div>
+
+    <script>
+        const contenedor = document.getElementById('contenedor-carrusel');
+
+        // 1. Título grande y atractivo: "el medio ambiente" (Arial Black, tamaño 40)
+        const titulo = document.createElement('h1');
+        titulo.className = 'titulo-ambiente';
+        titulo.textContent = 'el medio ambiente';
+        contenedor.appendChild(titulo);
+
+        // 2. Creación de la tabla de 3x2 (3 columnas x 2 filas = 6 imágenes)
+        const tabla = document.createElement('table');
+        tabla.className = 'tabla-imagenes';
+
+        const nombresImagenes = ['imagen1', 'imagen2', 'imagen3', 'imagen4', 'imagen5', 'imagen6'];
+        const rutaCarpeta = 'C:/Users/GdlSur/Documents/Mi portafolio/Mis Imagenes/';
+        const rutaRelativa = 'Mis Imagenes/';
+
+        // Función auxiliar para probar extensiones (.jpg, .png, .jpeg, .jfif, .webp) automáticamente
+        function asignarRutaImagen(imgElement, nombreBase) {
+            const extensiones = ['.jpg', '.png', '.jpeg', '.jfif', '.webp'];
+            let indice = 0;
+            let usandoRelativa = false;
+
+            imgElement.src = rutaCarpeta + nombreBase + extensiones[indice];
+
+            imgElement.onerror = function() {
+                indice++;
+                if (indice < extensiones.length) {
+                    const base = usandoRelativa ? rutaRelativa : rutaCarpeta;
+                    this.src = base + nombreBase + extensiones[indice];
+                } else if (!usandoRelativa) {
+                    usandoRelativa = true;
+                    indice = 0;
+                    this.src = rutaRelativa + nombreBase + extensiones[indice];
+                }
+            };
+        }
+
+        let contador = 0;
+        for (let fila = 0; fila < 2; fila++) {
+            const tr = document.createElement('tr');
+            
+            for (let col = 0; col < 3; col++) {
+                const td = document.createElement('td');
+                const img = document.createElement('img');
+                img.className = 'img-galeria';
+                img.alt = nombresImagenes[contador];
+
+                asignarRutaImagen(img, nombresImagenes[contador]);
+
+                // Evento: Al hacer clic, la imagen se extiende a su tamaño original
+                img.onclick = function() {
+                    const visor = document.getElementById('visor-imagen');
+                    const imgOriginal = document.getElementById('imagen-tamano-original');
+                    imgOriginal.src = this.src;
+                    visor.className = 'modal-visible';
+                };
+
+                td.appendChild(img);
+                tr.appendChild(td);
+                contador++;
+            }
+            tabla.appendChild(tr);
+        }
+        contenedor.appendChild(tabla);
+
+        // Cerrar la imagen extendida al darle clic en cualquier parte del fondo o en la X
+        document.getElementById('visor-imagen').onclick = function() {
+            this.className = 'modal-oculto';
+        };
+
+        // 3. Botón en la parte inferior para regresar a la página original (index.html)
+        const contenedorBoton = document.createElement('div');
+        contenedorBoton.className = 'contenedor-botones';
+
+        const btnRegresar = document.createElement('button');
+        btnRegresar.className = 'boton btn-verde';
+        btnRegresar.textContent = 'Regresar a la página principal';
+        btnRegresar.onclick = function() {
+            window.location.href = 'index.html';
+        };
+
+        contenedorBoton.appendChild(btnRegresar);
+        contenedor.appendChild(contenedorBoton);
+    </script>
+
+</body>
+</html>
